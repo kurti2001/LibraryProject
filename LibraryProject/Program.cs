@@ -1,7 +1,13 @@
+using LibraryProject.DataAccess;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.RegisterDataAccessServices(builder.Configuration);
+Utils.Init(builder.Configuration.GetConnectionString("LibraryProjectConnectionString"));
 
 var app = builder.Build();
 
