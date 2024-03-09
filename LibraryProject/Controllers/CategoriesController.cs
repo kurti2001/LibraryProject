@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Entities;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LibraryProject.Controllers
 {
@@ -16,7 +14,6 @@ namespace LibraryProject.Controllers
 			_context = context;
 		}
 
-		// GET: Categories
 		public async Task<IActionResult> Index()
         {
               return _context.Category != null ? 
