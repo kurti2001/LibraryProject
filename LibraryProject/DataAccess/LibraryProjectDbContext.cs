@@ -1,10 +1,10 @@
-﻿using LibraryProject.DataAccess.Entities;
+﻿using LibraryProject.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace LibraryProject.DataAccess
 {
-	internal class LibraryProjectDbContext : DbContext
+	public class LibraryProjectDbContext : DbContext
 	{
 		public LibraryProjectDbContext(DbContextOptions optionsBuilder) : base(optionsBuilder) 
 		{ 
@@ -15,6 +15,6 @@ namespace LibraryProject.DataAccess
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 		}
-		public DbSet<LibraryProject.DataAccess.Entities.Book> Book { get; set; } = default!;
+		public DbSet<Book> Book { get; set; } = default!;
 	}
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryProject.DataAccess;
-using LibraryProject.DataAccess.Entities;
+using LibraryProject.DataAccess.Models;
 
 namespace LibraryProject.Controllers
 {

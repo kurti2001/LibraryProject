@@ -19,21 +19,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Privacy", "Home")">Privacy</a>
                 </li>
-                <li class="nav-item dropdown">
+
+                <li class="nav-item">
+                    <a class="nav-link text-Dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                </li>
+@*                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categories
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Category 1</a>
                         <a class="dropdown-item" href="#">Category 2</a>
-         @*                <div class="dropdown-divider"></div> *@
+                         <div class="dropdown-divider"></div> 
                         <a class="dropdown-item" href="#">Category 3</a>
                     </div>
-                </li>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search title" placeholder="Search title" aria-label="Search title">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </li> 
+                
+
+                *@
 
             </ul>
         </div>
@@ -55,6 +58,7 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-MX3b8pXJc+5d2AnqZvR3lofJ2bcWlSe0N2aWkW+UpBu2A0FTb5ayOoFqjZKa35vX" crossorigin="anonymous"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 
 

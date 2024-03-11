@@ -1,4 +1,4 @@
-﻿using LibraryProject.DataAccess.Entities;
+﻿using LibraryProject.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

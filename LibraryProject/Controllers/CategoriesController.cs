@@ -1,157 +1,79 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryProject.DataAccess;
-using LibraryProject.DataAccess.Entities;
+using LibraryProject.DataAccess.Models;
+using LibraryProject.Services;
 
 namespace LibraryProject.Controllers
 {
-	internal class CategoriesController : Controller
+	public class CategoriesController : Controller
 	{
-		private readonly LibraryProjectDbContext _context;
+		private readonly ICategoriesService _categoriesService;
 
-		public CategoriesController(LibraryProjectDbContext context)
+		public CategoriesController(ICategoriesService categoriesService)
 		{
-			_context = context;
+			_categoriesService = categoriesService;
 		}
-
 		public async Task<IActionResult> Index()
-        {
-              return _context.Category != null ? 
-                          View(await _context.Category.ToListAsync()) :
-                          Problem("Entity set 'LibraryProjectDbContext.Category'  is null.");
-        }
-
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Category == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // GET: Categories/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
-        {
+		{
+			var categories = await _categoriesService.GetAllAsync();
+			return View(categories);
+		}
+		[HttpGet]
+		public async Task<IActionResult> GetById(int id)
+		{
+			var categories = await _categoriesService.GetByIdAsync(id);
+			return View(categories);
+		}
+		[HttpGet]
+		public IActionResult Create()
+		{
+			return View();
+		}
+		[HttpPost]
+		public async Task<IActionResult> Create(CategoryModel model)
+		{
             if (ModelState.IsValid)
-            {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(category);
-        }
-
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Category == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Category.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
-        }
-
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
-        {
-            if (id != category.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(category);
-        }
-
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Category == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
-        }
-
-        // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Category == null)
-            {
-                return Problem("Entity set 'LibraryProjectDbContext.Category'  is null.");
-            }
-            var category = await _context.Category.FindAsync(id);
-            if (category != null)
-            {
-                _context.Category.Remove(category);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CategoryExists(int id)
-        {
-          return (_context.Category?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-    }
+			{
+				await _categoriesService.AddAsync(new Category
+				{
+				Name = model.Name });
+				return RedirectToAction(nameof(Index));
+			}
+			return View(model);
+		}
+		[HttpGet]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var categories = await _categoriesService.GetByIdAsync(id);
+			return View(categories);
+		}
+		[HttpPost]
+		public async Task<IActionResult> ConfirmDelete(int id)
+		{
+			await _categoriesService.DeleteAsync(id);
+			return RedirectToAction(nameof(Index));
+		}
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			var categories = await _categoriesService.GetByIdAsync(id);
+			return View(new CategoryModel
+			{ Name = categories.Name });
+		}
+		[HttpPost]
+		public async Task<IActionResult> Edit(int id,  CategoryModel model)
+		{
+			var categories = await _categoriesService.GetByIdAsync(id);
+			categories.Name = model.Name;
+			await _categoriesService.UpdateAsync(id, categories);
+			return RedirectToAction(nameof(Index));
+		}
+		[HttpGet]
+		public async Task<IActionResult> Details(int id)
+		{
+			var categories = await _categoriesService.GetByIdAsync(id);
+			return View(categories);
+		}
+	}
 }

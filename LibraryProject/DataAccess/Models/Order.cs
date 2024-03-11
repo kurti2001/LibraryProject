@@ -1,4 +1,4 @@
-﻿namespace LibraryProject.DataAccess.Entities
+﻿namespace LibraryProject.DataAccess.Models
 {
 		public enum OrderStatus
 		{
