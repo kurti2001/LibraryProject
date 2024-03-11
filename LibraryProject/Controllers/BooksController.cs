@@ -1,151 +1,137 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Models;
+using LibraryProject.Services;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibraryProject.Controllers
 {
-    internal class BooksController : Controller
+    public class BooksController : Controller
     {
-        private readonly LibraryProjectDbContext _context;
+        private readonly IBooksService _booksService;
+        private readonly ICategoriesService _categoriesService;
 
-        public BooksController(LibraryProjectDbContext context)
+        public BooksController(IBooksService booksService,
+                               ICategoriesService categoriesService)
         {
-            _context = context;
+            _booksService = booksService;
+            _categoriesService = categoriesService;
         }
+
         public async Task<IActionResult> Index()
         {
-            var libraryProjectDbContext = _context.Book.Include(b => b.Category);
-            return View(await libraryProjectDbContext.ToListAsync());
+            var books = await _booksService.GetAllAsync();
+            return View(books);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
         {
-            if (id == null || _context.Book == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Book
-                .Include(b => b.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
+            var books = await _booksService.GetByIdAsync(id);
+            return View(books);
         }
 
-        public IActionResult Create()
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
-            return View();
+            var categories = await _categoriesService.GetAllAsync();
+            var categoriesModel = categories.Select(category => new SelectListItem(category.Name,
+                                                                                     category.Id.ToString()))
+                                             .ToList();
+            ViewBag.Categories = categoriesModel;
+            return View(new BookModel());
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ISBN,Created,Updated,CategoryId")] Book book)
+        public async Task<IActionResult> Create(BookModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+                var currentTime = DateTime.UtcNow;
+                await _booksService.AddAsync(new Book
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    ISBN = model.ISBN,
+                    Created = currentTime,
+                    Updated = currentTime,
+                    CategoryId = model.CategoryId
+                });
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", book.CategoryId);
-            return View(book);
+
+            var categories = await _categoriesService.GetAllAsync();
+            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name,
+                                                                                     category.Id.ToString()))
+                                             .ToList();
+            return View(model);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Book == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Book.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", book.CategoryId);
-            return View(book);
+            var books = await _booksService.GetByIdAsync(id);
+            return View(books);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ISBN,Created,Updated,CategoryId")] Book book)
+        public async Task<IActionResult> ConfirmDelete(int id)
         {
-            if (id != book.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name", book.CategoryId);
-            return View(book);
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Book == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Book
-                .Include(b => b.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Book == null)
-            {
-                return Problem("Entity set 'LibraryProjectDbContext.Book'  is null.");
-            }
-            var book = await _context.Book.FindAsync(id);
-            if (book != null)
-            {
-                _context.Book.Remove(book);
-            }
-
-            await _context.SaveChangesAsync();
+            await _booksService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            return (_context.Book?.Any(e => e.Id == id)).GetValueOrDefault();
+            var books = await _booksService.GetByIdAsync(id);
+            var categories = await _categoriesService.GetAllAsync();
+            var categoriesModel = categories.Select(category => new SelectListItem(category.Name,
+                                                                                    category.Id.ToString(),
+                                                                                    category.Id == books.CategoryId))
+                                             .ToList();
+            ViewBag.Categories = categoriesModel;
+            return View(new BookModel
+            {
+                Title = books.Title,
+                Description = books.Description,
+                ISBN = books.ISBN,
+                Updated = books.Updated,
+                CategoryId = books.CategoryId
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, BookModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var books = await _booksService.GetByIdAsync(id);
+                books.Title = model.Title;
+                books.Description = model.Description;
+                books.ISBN = model.ISBN;
+                books.Updated = DateTime.UtcNow;
+                books.CategoryId = model.CategoryId;
+                await _booksService.UpdateAsync(id, books);
+                return RedirectToAction(nameof(Index));
+            }
+
+            var categories = await _categoriesService.GetAllAsync();
+            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name,
+                                                                                     category.Id.ToString()))
+                                             .ToList();
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var books = await _booksService.GetByIdAsync(id);
+            books.Category = await _categoriesService.GetByIdAsync(books.CategoryId);
+            return View(books);
         }
     }
 }

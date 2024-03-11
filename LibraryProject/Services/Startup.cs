@@ -5,6 +5,7 @@
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<IBooksService, BooksService>();
         }
     }
 }

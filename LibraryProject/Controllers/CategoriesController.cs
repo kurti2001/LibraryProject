@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
 

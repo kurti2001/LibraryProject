@@ -1,5 +1,4 @@
-﻿
-using LibraryProject.DataAccess;
+﻿using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +8,11 @@ namespace LibraryProject.Services
     {
         Task<IEnumerable<Book>> GetAllAsync();
         Task<Book> GetByIdAsync(int id);
-        Task<Book> AddAsync(Book book);
-        Task<Book> UpdateAsync(int id,Book model);
+        Task AddAsync(Book book);
+        Task<Book> UpdateAsync(int id, Book model);
         Task<Book> DeleteAsync(int id);
     }
-    public class BooksService : IBooksService
+    internal class BooksService : IBooksService
     {
         private readonly LibraryProjectDbContext _context;
         public BooksService(LibraryProjectDbContext context) 
@@ -21,11 +20,10 @@ namespace LibraryProject.Services
             _context = context;
         }
 
-        public async Task<Book> AddAsync(Book book)
+        public async Task AddAsync(Book book)
         {
-            _context.Add(book);
+            await _context.AddAsync(book);
             await _context.SaveChangesAsync();
-            return book;
         }
 
         public async Task<Book> DeleteAsync(int id)
@@ -50,17 +48,17 @@ namespace LibraryProject.Services
             return await _context.Book.FindAsync(id);
         }
 
-        public async Task<Book> UpdateAsync(int id, Book modle)
+        public async Task<Book> UpdateAsync(int id, Book model)
         {
             var book = await GetByIdAsync(id);
             if( book != null )
             {
-                book.Title = book.Title;
-                book.Description = book.Description;
-                book.ISBN = book.ISBN;
-                book.Created = book.Created;
-                book.Updated = book.Updated;
-                book.CategoryId = book.CategoryId;
+                book.Title = model.Title;
+                book.Description = model.Description;
+                book.ISBN = model.ISBN;
+                book.Created = model.Created;
+                book.Updated = model.Updated;
+                book.CategoryId =   book.CategoryId;
                 await _context.SaveChangesAsync();
                 return book;
             }

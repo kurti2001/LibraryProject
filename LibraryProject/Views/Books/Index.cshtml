@@ -1,0 +1,58 @@
+﻿﻿
+@model IEnumerable<LibraryProject.DataAccess.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+    .btn-outline-customorange {
+        color: #ff8c00;
+        border-color: #ff8c00;
+    }
+
+        .btn-outline-customorange:hover {
+            color: #ffffff; /* Text color when hovered */
+            background-color: #ff8c00; /* Background color when hovered */
+            border-color: #ff8c00;
+        }
+</style>
+
+
+    <div class="container mt-4">
+        <h2>Books</h2>
+
+        <div class="text-right mb-3">
+            <a class="btn btn-primary" asp-action="Create">Create New</a>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"> Book Titles</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Area Actions">
+                                <a class="btn btn-outline-success me-2 d-flex align-items-center" asp-action="Details" asp-route-id="@item.Id" title="Details">
+                                    <i class="material-icons">visibility</i> Details
+                                </a>
+                                <a class="btn btn-outline-customorange me-2 d-flex align-items-center" asp-action="Edit" asp-route-id="@item.Id" title="Edit">
+                                    <i class="material-icons">edit</i> Edit
+                                </a>
+                                <a class="btn btn-outline-danger me-2 d-flex align-items-center" asp-action="Delete" asp-route-id="@item.Id" title="Delete">
+                                    <i class="material-icons">delete</i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
