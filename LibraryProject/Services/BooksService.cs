@@ -11,6 +11,7 @@ namespace LibraryProject.Services
         Task AddAsync(Book book);
         Task<Book> UpdateAsync(int id, Book model);
         Task<Book> DeleteAsync(int id);
+        Task<IEnumerable<Book>> GetBooksByCategory(int id);
     }
     internal class BooksService : IBooksService
     {
@@ -41,6 +42,14 @@ namespace LibraryProject.Services
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
             return await _context.Book.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByCategory(int id)
+        {
+            var books = await _context.Book
+                                      .Where(b => b.CategoryId == id)
+                                      .ToListAsync();
+            return books;
         }
 
         public async Task<Book> GetByIdAsync(int id)

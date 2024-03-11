@@ -9,17 +9,27 @@ namespace LibraryProject.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICategoriesService _categoriesService;
+        private readonly IBooksService _booksService;
 
         public HomeController(ILogger<HomeController> logger,
-                              ICategoriesService categoriesService)
+                              ICategoriesService categoriesService,
+                              IBooksService booksService)
         {
             _logger = logger;
             _categoriesService = categoriesService;
+            _booksService = booksService;
+        }
+
+        public async Task<IActionResult> GetBooksByCategory(int id)
+        {
+            var books = await _booksService.GetBooksByCategory(id);
+            return View("BooksByCategory", books);
         }
 
         public async Task< IActionResult> Index()
         {
             var categories = await _categoriesService.GetAllAsync();
+            var sortedCategories = categories.OrderBy(c => c.Name).ToList();
             ViewBag.Categories = categories;
             return View();
         }

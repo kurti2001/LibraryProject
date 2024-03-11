@@ -133,5 +133,7 @@ namespace LibraryProject.Controllers
             books.Category = await _categoriesService.GetByIdAsync(books.CategoryId);
             return View(books);
         }
+
+
     }
 }

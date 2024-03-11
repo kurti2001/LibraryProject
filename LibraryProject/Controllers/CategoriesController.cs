@@ -12,12 +12,14 @@ namespace LibraryProject.Controllers
 		{
 			_categoriesService = categoriesService;
 		}
-		public async Task<IActionResult> Index()
-		{
-			var categories = await _categoriesService.GetAllAsync();
-			return View(categories);
-		}
-		[HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var categories = await _categoriesService.GetAllAsync();
+            var sortedCategories = categories.OrderBy(c => c.Name).ToList();
+            return View(sortedCategories);
+        }
+
+        [HttpGet]
 		public async Task<IActionResult> GetById(int id)
 		{
 			var categories = await _categoriesService.GetByIdAsync(id);

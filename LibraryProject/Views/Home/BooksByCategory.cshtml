@@ -1,0 +1,17 @@
+﻿@model IEnumerable<LibraryProject.DataAccess.Models.Book>
+
+<h2>Books By Category</h2>
+
+<div class="row">
+    @foreach (var book in Model)
+    {
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text">@book.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
