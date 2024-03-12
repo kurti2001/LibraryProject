@@ -50,6 +50,12 @@
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.CategoryId)
             </dd>
+            <dt class="col-sm-2">
+                Book: 
+            </dt>
+            <dd class="col-sm-10">
+                <img src="@Url.Content(Model.ImagePath)" alt="Book Image" class="img-thumbnail" />
+            </dd>
             <form asp-action="ConfirmDelete" asp-route-id="@Model.Id" method="post">
                 <div class="mt-3">
                     <button type="submit" class="btn btn-danger">Delete</button>

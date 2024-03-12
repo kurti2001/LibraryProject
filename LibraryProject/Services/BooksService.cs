@@ -85,7 +85,8 @@ namespace LibraryProject.Services
                 book.ISBN = model.ISBN;
                 book.Created = model.Created;
                 book.Updated = model.Updated;
-                book.CategoryId =   book.CategoryId;
+                book.CategoryId = model.CategoryId;
+                book.ImagePath = model.ImagePath;
                 await _context.SaveChangesAsync();
                 return book;
             }

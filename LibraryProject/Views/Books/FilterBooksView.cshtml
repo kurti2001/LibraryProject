@@ -10,13 +10,14 @@
     @if (Context.Request.Query.ContainsKey("q"))
     {
         <div class="alert alert-info">
-            Showing results for:@Context.Request.Query["q"]
+            Showing results for: @Context.Request.Query["q"]
         </div>
         <div class="row">
             @foreach (var book in Model)
             {
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm">
+                        <img src="@Url.Content(book.ImagePath)" class="card-img-top" alt="Book Image">
                         <div class="card-body">
                             <h5 class="card-title">@book.Title</h5>
                             <ul class="list-unstyled">
@@ -26,8 +27,8 @@
                             </ul>
                         </div>
                     </div>
-                </div> 
+                </div>
             }
         </div>
     }
-</section> 
+</section>

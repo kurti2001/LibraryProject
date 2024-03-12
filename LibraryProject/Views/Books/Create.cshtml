@@ -1,8 +1,8 @@
-﻿@model BookModel
-
+﻿@model LibraryProject.DataAccess.Models.BookModel
 @{
     ViewData["Title"] = "Create";
 }
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <h2 class="text-center mb-4">Create Book</h2>
                     <hr />
-                    <form asp-action="Create">
+                    <form method="post" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Title" class="control-label"></label>
@@ -29,13 +29,15 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="CategoryId" class="control-label"></label>
-                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
-                                <option value="">Select Category</option>
-                            </select>
+                            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
                             <span asp-validation-for="CategoryId" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <label for="picture" class="control-label">Picture</label>
+                            <input type="file" id="picture" name="picture" class="form-control-file" />
+                        </div>
                         <div class="form-group" style="margin-top:20px">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <button type="submit" class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>

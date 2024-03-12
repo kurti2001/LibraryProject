@@ -93,6 +93,7 @@
         </div>
         @* Search Box *@
 
+       
         <div class="row">
             <div class="col-lg-4">
                 <div class="templatemo_content_left_section" style="background-color: #4b4743; color: #000;">
@@ -109,6 +110,7 @@
 
                     </div>
                 </div>
+
             <div class="col-lg-4">
                 <div class="templatemo_content_left_section" style="background-color: #4b4743; color: #000;">
                     <h1>Bestsellers</h1>
@@ -127,44 +129,20 @@
             </div>
             </div
 
-              <div class="col-lg-4">
-                <div class="templatemo_content_left_section" style="color: #000;">
-                    <h1>Books Available</h1>
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="~/images/a1.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                        <div class="col-4">
-                            <img src="~/images/a2.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                        <div class="col-4">
-                            <img src="~/images/a3.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="~/images/a1.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                        <div class="col-4">
-                            <img src="~/images/a2.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                        <div class="col-4">
-                            <img src="~/images/a3.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="~/images/a1.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                        <div class="col-4">
-                            <img src="~/images/a2.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                        <div class="col-4">
-                            <img src="~/images/a3.jpg" alt="Book 1" style="margin-bottom: 20px;">
-                        </div>
-                    </div>
+             <div class="col-lg-4">
+    <div class="templatemo_content_left_section" style="color: #000;">
+        <h1>Books Available</h1>
+        <div class="row">
+            @foreach (var book in Model)
+            {
+                <div class="col-4">
+                    <img src="@Url.Content(book.ImagePath)" alt="@book.Title" style="margin-bottom: 20px;">
                 </div>
-            </div>
+            }
+        </div>
+    </div>
+</div>
+
         </div>
 
         <div class="row">

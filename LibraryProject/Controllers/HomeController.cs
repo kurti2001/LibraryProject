@@ -31,9 +31,12 @@ namespace LibraryProject.Controllers
             var categories = await _categoriesService.GetAllAsync();
             var sortedCategories = categories.OrderBy(c => c.Name).ToList();
             ViewBag.Categories = categories;
-            return View();
-        }
 
+            var books = await _booksService.GetAllAsync();
+            var randomBooks = books.OrderBy(x => Guid.NewGuid()).ToList();
+            var booksToShow = randomBooks.Take(9);
+            return View(booksToShow); 
+        }
         public IActionResult Privacy()
         {
             return View();

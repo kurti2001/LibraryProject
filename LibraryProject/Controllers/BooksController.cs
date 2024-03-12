@@ -22,6 +22,19 @@ namespace LibraryProject.Controllers
             var books = await _booksService.GetAllAsync();
             return View(books);
         }
+        [HttpGet]
+        public async Task<IActionResult> Index(string Title)
+        {
+            var books = await _booksService.GetAllAsync();
+
+            if (!String.IsNullOrEmpty(Title))
+            {
+                books = books.Where(x => x.Title.Contains(Title, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return View(books);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
@@ -42,11 +55,24 @@ namespace LibraryProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BookModel model)
+        public async Task<IActionResult> Create(BookModel model, IFormFile picture)
         {
             if (ModelState.IsValid)
             {
                 var currentTime = DateTime.UtcNow;
+
+                string imagePath = null;
+                if (picture != null && picture.Length > 0)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(picture.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await picture.CopyToAsync(stream);
+                    }
+                    imagePath = "/images/" + fileName;
+                }
+
                 await _booksService.AddAsync(new Book
                 {
                     Title = model.Title,
@@ -54,16 +80,15 @@ namespace LibraryProject.Controllers
                     ISBN = model.ISBN,
                     Created = currentTime,
                     Updated = currentTime,
-                    CategoryId = model.CategoryId
+                    CategoryId = model.CategoryId,
+                    ImagePath = imagePath
                 });
 
                 return RedirectToAction(nameof(Index));
             }
 
             var categories = await _categoriesService.GetAllAsync();
-            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name,
-                                                                                     category.Id.ToString()))
-                                             .ToList();
+            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name, category.Id.ToString())).ToList();
             return View(model);
         }
 
@@ -102,24 +127,38 @@ namespace LibraryProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, BookModel model)
+        public async Task<IActionResult> Edit(int id, BookModel model, IFormFile picture)
         {
             if (ModelState.IsValid)
             {
-                var books = await _booksService.GetByIdAsync(id);
-                books.Title = model.Title;
-                books.Description = model.Description;
-                books.ISBN = model.ISBN;
-                books.Updated = DateTime.UtcNow;
-                books.CategoryId = model.CategoryId;
-                await _booksService.UpdateAsync(id, books);
+                var book = await _booksService.GetByIdAsync(id);
+
+                book.Title = model.Title;
+                book.Description = model.Description;
+                book.ISBN = model.ISBN;
+                book.Updated = DateTime.UtcNow;
+                book.CategoryId = model.CategoryId;
+
+                if (picture != null && picture.Length > 0)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(picture.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await picture.CopyToAsync(stream);
+                    }
+                    book.ImagePath = "/images/" + fileName;
+                }
+
+                await _booksService.UpdateAsync(id, book);
                 return RedirectToAction(nameof(Index));
             }
 
             var categories = await _categoriesService.GetAllAsync();
-            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name,category.Id.ToString())).ToList();
+            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name, category.Id.ToString())).ToList();
             return View(model);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
@@ -131,17 +170,24 @@ namespace LibraryProject.Controllers
         [HttpGet("books/search")]
         public async Task<List<BookModel>> FilterBooks(string q)
         {
-            return await _booksService.FindByTitle(q);
+            var books = await _booksService.FindByTitle(q);
+            foreach (var book in books)
+            {
+                var entity = await _booksService.GetByIdAsync(book.Id);
+                book.ImagePath = entity.ImagePath;
+            }
+
+            return books;
         }
         [HttpGet("books/filter")]
-        public async Task<IActionResult> FilterBooksView(string? q)
+        public Task<IActionResult> FilterBooksView(string? q)
         {
-            List<BookModel> result = new List<BookModel>();
+            List<BookModel> result = new();
             if(q != null)
             {
                 result = FilterBooks(q).Result;
             }
-            return View(result);
+            return Task.FromResult<IActionResult>(View(result));
         }
 
     }
