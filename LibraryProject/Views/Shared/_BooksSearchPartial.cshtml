@@ -1,0 +1,26 @@
+﻿<form method="get"
+      asp-controller="Books"
+      asp-action="FilterBooksView"
+      style="position: relative; display: flex; align-items: center;">
+    <input class="form-control mr-sm-2"
+           type="text"
+           name="q"
+           placeholder="Search Title..."
+           aria-label="Search Title"
+           id="txtSearchBoxQuery"
+           onkeyup="searchAsync()" />
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="background-color: #8B4513; border-color: #8B4513;">Search</button>
+</form>
+
+<style>
+    #search-results {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+    }
+
+    .btn-outline-success {
+        color: #fff
+    }
+</style>

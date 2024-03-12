@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LibraryProject.Controllers
 {
@@ -120,9 +117,7 @@ namespace LibraryProject.Controllers
             }
 
             var categories = await _categoriesService.GetAllAsync();
-            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name,
-                                                                                     category.Id.ToString()))
-                                             .ToList();
+            ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name,category.Id.ToString())).ToList();
             return View(model);
         }
 
@@ -133,7 +128,21 @@ namespace LibraryProject.Controllers
             books.Category = await _categoriesService.GetByIdAsync(books.CategoryId);
             return View(books);
         }
-
+        [HttpGet("books/search")]
+        public async Task<List<BookModel>> FilterBooks(string q)
+        {
+            return await _booksService.FindByTitle(q);
+        }
+        [HttpGet("books/filter")]
+        public async Task<IActionResult> FilterBooksView(string? q)
+        {
+            List<BookModel> result = new List<BookModel>();
+            if(q != null)
+            {
+                result = FilterBooks(q).Result;
+            }
+            return View(result);
+        }
 
     }
 }

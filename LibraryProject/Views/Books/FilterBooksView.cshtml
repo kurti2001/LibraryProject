@@ -1,0 +1,33 @@
+﻿@model List<LibraryProject.DataAccess.Models.BookModel>
+
+@{
+    ViewData["Title"] = "FilterBookView";
+}
+
+<h1 class="mt-4">Book Information</h1>
+
+<section>
+    @if (Context.Request.Query.ContainsKey("q"))
+    {
+        <div class="alert alert-info">
+            Showing results for:@Context.Request.Query["q"]
+        </div>
+        <div class="row">
+            @foreach (var book in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@book.Title</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Description:</strong> @book.Description</li>
+                                <li><strong>ISBN:</strong> @book.ISBN</li>
+                                <li><strong>Category:</strong> @book.CategoryId</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+            }
+        </div>
+    }
+</section> 
