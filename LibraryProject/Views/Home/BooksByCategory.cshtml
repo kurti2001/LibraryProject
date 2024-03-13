@@ -1,15 +1,38 @@
 ﻿@model IEnumerable<LibraryProject.DataAccess.Models.Book>
 
-<h2>Books By Category</h2>
+<h2>Books in Category: @ViewBag.CategoryName</h2>
+
+<div class="col-md-6 mb-4">
+    <form asp-controller="Home" asp-action="SearchBooksByTitle" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search by title" name="title">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <div class="row">
     @foreach (var book in Model)
     {
-        <div class="col-lg-4">
-            <div class="card">
+        <div class="col-md-4">
+            <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">@book.Title</h5>
-                    <p class="card-text">@book.Description</p>
+                    <h4 class="card-title">Book Details</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4 text-muted">Title:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => book.Title)</dd>
+
+                        <dt class="col-sm-4 text-muted">Description:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => book.Description)</dd>
+
+                        <dt class="col-sm-4 text-muted">Book:</dt>
+                        <dd class="col-sm-8">
+                            <img src="@Url.Content(book.ImagePath)" alt="Book Image" class="img-thumbnail" />
+                        </dd>
+                    </dl>
                 </div>
             </div>
         </div>

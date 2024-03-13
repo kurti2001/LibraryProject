@@ -12,7 +12,7 @@ namespace LibraryProject.Services
         Task<Book> UpdateAsync(int id, Book model);
         Task<Book> DeleteAsync(int id);
         Task<IEnumerable<Book>> GetBooksByCategory(int id);
-        Task<List<BookModel>> FindByTitle(string title);
+        Task<List<Book>> FindByTitle(string title);
     }
     internal class BooksService : IBooksService
     {
@@ -40,7 +40,7 @@ namespace LibraryProject.Services
             throw new Exception();
         }
 
-        public async Task<List<BookModel>> FindByTitle(string title)
+        public async Task<List<Book>> FindByTitle(string title)
         {
             var books = await _context.Book.Where(x => x.Title.Contains(title) ||
                                                 x.Description.Contains(title) ||
@@ -48,7 +48,7 @@ namespace LibraryProject.Services
                                                 x.CategoryId.ToString().Contains(title))
                                            .ToListAsync();
 
-            return books.Select(x => new BookModel
+            return books.Select(x => new Book
             {
                 Id = x.Id,
                 Title = x.Title,

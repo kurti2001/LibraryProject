@@ -51,11 +51,11 @@ namespace LibraryProject.Controllers
                                                                                      category.Id.ToString()))
                                              .ToList();
             ViewBag.Categories = categoriesModel;
-            return View(new BookModel());
+            return View(new Book());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BookModel model, IFormFile picture)
+        public async Task<IActionResult> Create(Book model, IFormFile picture)
         {
             if (ModelState.IsValid)
             {
@@ -168,7 +168,7 @@ namespace LibraryProject.Controllers
             return View(books);
         }
         [HttpGet("books/search")]
-        public async Task<List<BookModel>> FilterBooks(string q)
+        public async Task<List<Book>> FilterBooks(string q)
         {
             var books = await _booksService.FindByTitle(q);
             foreach (var book in books)
@@ -182,7 +182,7 @@ namespace LibraryProject.Controllers
         [HttpGet("books/filter")]
         public Task<IActionResult> FilterBooksView(string? q)
         {
-            List<BookModel> result = new();
+            List<Book> result = new();
             if(q != null)
             {
                 result = FilterBooks(q).Result;

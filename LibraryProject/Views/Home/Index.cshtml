@@ -54,6 +54,7 @@
 </head>
 <body>
     <div class="container">
+         @* Carousel images *@
         <div class="row">
             <div class="col-lg-12">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -84,14 +85,15 @@
                 </div>
             </div>
         </div> 
-        
-        @* Search Box *@
-        <div class="row">
-            <div class="col-md-12">
-                <partial name="_BooksSearchPartial" />
-            </div>
-        </div>
-        @* Search Box *@
+         @* Carousel images *@
+
+         @* Search Box *@
+         <div class="row">
+             <div class="col-md-12">
+                 <partial name="_BooksSearchPartial" />
+             </div>
+         </div>
+         @* Search Box *@
 
        
         <div class="row">
@@ -111,7 +113,7 @@
                     </div>
                 </div>
 
-            <div class="col-lg-4">
+              <div class="col-lg-4">
                 <div class="templatemo_content_left_section" style="background-color: #4b4743; color: #000;">
                     <h1>Bestsellers</h1>
                     <div class="category-list">
@@ -129,19 +131,24 @@
             </div>
             </div
 
-             <div class="col-lg-4">
-    <div class="templatemo_content_left_section" style="color: #000;">
-        <h1>Books Available</h1>
-        <div class="row">
-            @foreach (var book in Model)
-            {
-                <div class="col-4">
-                    <img src="@Url.Content(book.ImagePath)" alt="@book.Title" style="margin-bottom: 20px;">
+            <div class="col-lg-4">
+                <div class="templatemo_content_left_section" style="color: #000;">
+                    <h1>Books Available</h1>
+                    <div class="row">
+                       @foreach (var book in Model)
+                       {
+                             <div class="col-md-4 mb-4">
+                                 <div style="text-align: center;">
+                                     <img src="@Url.Content(book.ImagePath)" alt="@book.Title" style="max-width: 100px; max-height: 100px; margin-bottom: 10px;">
+                                     <div>
+                                         <a href="@Url.Action("Details", "Books", new { id = book.Id })" style="color: #000;">@book.Title</a>
+                                     </div>
+                                 </div>
+                             </div>
+                       }
+                    </div>
                 </div>
-            }
-        </div>
-    </div>
-</div>
+             </div>
 
         </div>
 
