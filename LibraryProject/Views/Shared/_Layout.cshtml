@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var isAdmin = User.IsInRole("Admin")||User.IsInRole("Recepsionist");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,11 +10,46 @@
     <title>@ViewData["Title"] - LibraryProject</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="~/LibraryProject.styles.css" asp-append-version="true" />
+    @if (isAdmin)
+    {
+        <link rel="stylesheet" href="path_to_admin_styles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/sidebar.css" />
+    }
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="~/">ISD Library</a>
+    @if (isAdmin)
+    {
+        <nav class="sidebar bg-dark">
+            <div class="sidebar-header">
+                <h3>ISD Library</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="~/">Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Privacy", "Home")">Privacy</a>
+                </li>
+                <li>
+                    <a class="nav-link text-Light" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                </li>
+                <li>
+                    <a class="nav-link text-Light" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                </li>
+                <li>
+                <partial name="_LoginPartial" />
+                </li>
+            </ul>
+        </nav>
+    }
 
+    else
+    {
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="~/">ISD Library</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -19,41 +58,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Privacy", "Home")">Privacy</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link text-Dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-Dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                 </li>
-@*                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categories
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Category 1</a>
-                        <a class="dropdown-item" href="#">Category 2</a>
-                         <div class="dropdown-divider"></div> 
-                        <a class="dropdown-item" href="#">Category 3</a>
-                    </div>
-                </li>  *@
             </ul>
+            <partial name="_LoginPartial" />
         </div>
-        <ul class="navbar-nav mr-auto ml-auto">
-
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Login</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Register</a>
-            </li>
-        </ul>
     </nav>
+    }
 
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
-
         </main>
     </div>
 
@@ -61,6 +80,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-MX3b8pXJc+5d2AnqZvR3lofJ2bcWlSe0N2aWkW+UpBu2A0FTb5ayOoFqjZKa35vX" crossorigin="anonymous"></script>
     @RenderSection("Scripts", required: false)
 </body>
-
-
 </html>

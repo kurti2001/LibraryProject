@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .book-container {
+            max-width: 80%;
+            margin: auto;
+        }
+
+        .book-title {
+            text-align: center; 
+        }
+
+        .book-image {
+            max-width: 200px; 
+            max-height: 200px; 
+            display: block; 
+            margin: auto; 
+            margin-bottom: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <h1 class="book-title">Books Available</h1>
+        <div class="row">
+            @foreach (var book in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div style="text-align: center;">
+                        <img class="book-image" src="@Url.Content(book.ImagePath)" alt="@book.Title">
+                        <div>
+                            <a href="@Url.Action("Details", "Books", new { id = book.Id })" style="color: #000;">@book.Title</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -6,6 +6,7 @@
         {
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<IBooksService, BooksService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
         }
     }
 }

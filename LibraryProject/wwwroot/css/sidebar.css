@@ -1,0 +1,48 @@
+﻿.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 250px; /* Adjust width as needed */
+    background-color: #343a40; /* Dark background color */
+    padding-top: 20px;
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #454d55; /* Border color */
+    margin-bottom: 20px;
+}
+
+    .sidebar-header h3 {
+        color: #fff; /* Header text color */
+    }
+
+.sidebar ul.components {
+    padding: 20px;
+}
+
+    .sidebar ul.components li {
+        margin-bottom: 10px;
+    }
+
+        .sidebar ul.components li a {
+            padding: 10px 15px;
+            font-size: 18px; /* Adjust font size as needed */
+            color: #fff; /* Link text color */
+            text-decoration: none;
+        }
+
+            .sidebar ul.components li a:hover {
+                background-color: #454d55; /* Hover background color */
+            }
+
+/* Ensure the sidebar fills the full height */
+.container {
+    height: 100vh;
+    overflow-y: auto;
+}

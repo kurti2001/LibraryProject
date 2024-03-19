@@ -1,7 +1,9 @@
 ﻿using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Linq;
 
 public class HomeController : Controller
 {
@@ -46,15 +48,24 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var categories = await _categoriesService.GetAllAsync();
-        var sortedCategories = categories.OrderBy(c => c.Name).ToList();
-        ViewBag.Categories = sortedCategories;
+        if (User.IsInRole("Admin") || User.IsInRole("Recepsionist"))
+        {
+            var books = await _booksService.GetAllAsync();
+            var randomBooks = books.OrderBy(x => Guid.NewGuid()).ToList();
+            return View("AdmIndex",randomBooks);
+        }
+        else
+        {
+            var categories = await _categoriesService.GetAllAsync();
+            var sortedCategories = categories.OrderBy(c => c.Name).ToList();
+            ViewBag.Categories = sortedCategories;
 
-        var books = await _booksService.GetAllAsync();
-        var randomBooks = books.OrderBy(x => Guid.NewGuid()).ToList();
-        var booksToShow = randomBooks.Take(9);
-        return View(booksToShow);
-    }
+            var books = await _booksService.GetAllAsync();
+            var randomBooks = books.OrderBy(x => Guid.NewGuid()).ToList();
+            var booksToShow = randomBooks.Take(9);
+            return View(booksToShow);
+        }
+        }
 
     public IActionResult Privacy()
     {
