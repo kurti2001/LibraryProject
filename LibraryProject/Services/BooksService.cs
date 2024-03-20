@@ -13,6 +13,7 @@ namespace LibraryProject.Services
         Task<Book> DeleteAsync(int id);
         Task<IEnumerable<Book>> GetBooksByCategory(int id);
         Task<List<Book>> FindByTitle(string title);
+        IEnumerable<Book> GetRange(List<int> booksIds);
     }
     internal class BooksService : IBooksService
     {
@@ -73,6 +74,20 @@ namespace LibraryProject.Services
         public async Task<Book> GetByIdAsync(int id)
         {
             return await _context.Book.FindAsync(id);
+        }
+
+        public IEnumerable<Book> GetRange(List<int> booksIds)
+        {
+            return _context.Book.Where(x => booksIds.Contains(x.Id))
+                                .Select(x => new Book
+                                {
+                                    Id = x.Id,
+                                    Title = x.Title,
+                                    Description = x.Description,
+                                    ISBN = x.ISBN,
+                                    CategoryId = x.CategoryId
+                                })
+                                .ToList();
         }
 
         public async Task<Book> UpdateAsync(int id, Book model)

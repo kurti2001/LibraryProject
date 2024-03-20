@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
 using Microsoft.AspNetCore.Authentication;

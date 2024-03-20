@@ -112,43 +112,27 @@
 
                     </div>
                 </div>
-
-              <div class="col-lg-4">
-                <div class="templatemo_content_left_section" style="background-color: #4b4743; color: #000;">
-                    <h1>Bestsellers</h1>
-                    <div class="category-list">
-                        <li class="list-group-item" style="background-color: #4b4743;">
-                            <a href="#" style="color: #000;">Book 1</a>
-                        </li>
-                        <li class="list-group-item" style="background-color: #4b4743;">
-                            <a href="#" style="color: #000;">Book 2</a>
-                        </li>
-                        <li class="list-group-item" style="background-color: #4b4743;">
-                            <a href="#" style="color: #000;">Book 3</a>
-                        </li>
-                    </div>
-                </div>
-            </div>
             </div
 
-            <div class="col-lg-4">
-                <div class="templatemo_content_left_section" style="color: #000;">
-                    <h1>Books Available</h1>
-                    <div class="row">
-                       @foreach (var book in Model)
-                       {
-                             <div class="col-md-4 mb-4">
-                                 <div style="text-align: center;">
-                                     <img src="@Url.Content(book.ImagePath)" alt="@book.Title" style="max-width: 100px; max-height: 100px; margin-bottom: 10px;">
-                                     <div>
-                                         <a href="@Url.Action("Details", "Books", new { id = book.Id })" style="color: #000;">@book.Title</a>
-                                     </div>
-                                 </div>
-                             </div>
-                       }
+<div class="col-lg-4">
+    <div class="templatemo_content_left_section" style="color: #000;">
+        <h1>Books Available</h1>
+        <div class="row">
+            @foreach (var book in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div style="text-align: center;">
+                        <img src="@Url.Content(book.ImagePath)" alt="@book.Title" style="max-width: 100px; max-height: 100px; margin-bottom: 10px;">
+                        <div>
+                            <a href="@Url.Action("Details", "Books", new { id = book.Id })" style="color: #000;">@book.Title</a>
+                        </div>
                     </div>
                 </div>
-             </div>
+            }
+        </div>
+    </div>
+</div>
+
 
         </div>
 

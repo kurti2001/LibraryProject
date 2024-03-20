@@ -73,6 +73,9 @@
                             <a class="btn btn-outline-danger me-2 d-flex align-items-center" asp-action="Delete" asp-route-id="@item.Id" title="Delete">
                                 <i class="material-icons">delete</i> Delete
                             </a>
+                            <div class="col text-right">
+                                <partial name="_BooksAddToCart" model="@item.Id"/>
+                            </div>
                         </div>
                     </td>
                 </tr>

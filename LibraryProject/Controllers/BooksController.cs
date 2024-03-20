@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace LibraryProject.Controllers
 {
@@ -9,12 +11,15 @@ namespace LibraryProject.Controllers
     {
         private readonly IBooksService _booksService;
         private readonly ICategoriesService _categoriesService;
+        private readonly IBooksCartService _booksCartService;
 
         public BooksController(IBooksService booksService,
-                               ICategoriesService categoriesService)
+                               ICategoriesService categoriesService,
+                               IBooksCartService booksCartService)
         {
             _booksService = booksService;
             _categoriesService = categoriesService;
+            _booksCartService = booksCartService;
         }
 
         public async Task<IActionResult> Index()
@@ -112,8 +117,8 @@ namespace LibraryProject.Controllers
             var books = await _booksService.GetByIdAsync(id);
             var categories = await _categoriesService.GetAllAsync();
             var categoriesModel = categories.Select(category => new SelectListItem(category.Name,
-                                                                                    category.Id.ToString(),
-                                                                                    category.Id == books.CategoryId))
+                                                                                   category.Id.ToString(),
+                                                                                   category.Id == books.CategoryId))
                                              .ToList();
             ViewBag.Categories = categoriesModel;
             return View(new BookModel
@@ -183,11 +188,32 @@ namespace LibraryProject.Controllers
         public Task<IActionResult> FilterBooksView(string? q)
         {
             List<Book> result = new();
-            if(q != null)
+            if (q != null)
             {
                 result = FilterBooks(q).Result;
             }
             return Task.FromResult<IActionResult>(View(result));
+        }
+
+        [HttpGet]
+        public IActionResult AddBooksToCart(int id)
+        {
+            _ = _booksService.GetByIdAsync(id);
+                _booksCartService.AddToCart(
+                int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                , new BookCart
+                {
+                    BookId = id
+                });
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult RemoveFromCart(int id)
+        {
+            _ = _booksService.GetByIdAsync(id);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            _booksCartService.RemoveFromCart(userId, id);
+            return RedirectToAction("Index", "BooksCart");
         }
 
     }

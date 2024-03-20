@@ -1,0 +1,6 @@
+﻿@model int
+
+<form asp-action="RemoveFromCart" asp-controller="Books" method="get">
+    <input type="hidden" value="@Model" name="id" />
+    <button type="submit" class="btn btn-danger">-</button>
+</form>

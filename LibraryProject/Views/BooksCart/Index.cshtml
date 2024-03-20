@@ -1,0 +1,64 @@
+﻿@model LibraryProject.DataAccess.Models.BookCartModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Books Cart </h4>
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MobilePhone" class="control-label"></label>
+                <input asp-for="MobilePhone" class="form-control" />
+                <span asp-validation-for="MobilePhone" class="text-danger"></span>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Book Title</td>
+                        <td>ISBN</td>
+                        <td>Category</td>
+                        <td>Actions</td> 
+                    </tr>
+                    @foreach (var book in Model.Books)
+                    {
+                        <tr>
+                            <td>@book.Book.Title</td>
+                            <td>@book.Book.ISBN</td>
+                            <td>@book.Book.CategoryId</td>
+                            <td>
+                                <div class="col text-right">
+                                    <partial name="_BooksRemoveFromCart" model="@book.BookId" />
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3" class="text-end font-weight-bold">Totali: </td>
+                    </tr>
+                </thead>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Books" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
