@@ -16,8 +16,8 @@
 <div class="row">
     @foreach (var book in Model)
     {
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-6">
+            <div class="card mb-6">
                 <div class="card-body">
                     <h4 class="card-title">Book Details</h4>
                     <hr />
@@ -32,6 +32,9 @@
                         <dd class="col-sm-8">
                             <img src="@Url.Content(book.ImagePath)" alt="Book Image" class="img-thumbnail" />
                         </dd>
+                        <div class="col text-right">
+                            <partial name="_BooksAddToCart" model="@book.Id" />
+                        </div>
                     </dl>
                 </div>
             </div>

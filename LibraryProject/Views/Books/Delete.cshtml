@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Delete";
 }
-<div class="container mt-4">
+@if (User.IsInRole("Recepsionist"))
+{
+    <div class="container mt-4">
     <h2>Delete Book</h2>
 
     <div class="alert alert-warning" role="alert">
@@ -64,3 +66,4 @@
             </form>
     </div>
 </div>
+}

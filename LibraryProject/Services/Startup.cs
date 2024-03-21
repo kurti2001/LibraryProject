@@ -7,6 +7,13 @@
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<IBooksService, BooksService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+            services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<IOrderItemsService, OrderItemsService>();
+            services.AddScoped<IServicesManager, ServicesManager>();
+
+
+            services.AddSingleton<IBooksCartService, BooksCartService>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryProject.Controllers
 {
@@ -12,6 +13,7 @@ namespace LibraryProject.Controllers
 		{
 			_categoriesService = categoriesService;
 		}
+        [Authorize(Roles = "Admin, Recepsionist")]
         public async Task<IActionResult> Index()
         {
             var categories = await _categoriesService.GetAllAsync();
@@ -20,18 +22,21 @@ namespace LibraryProject.Controllers
         }
 
         [HttpGet]
-		public async Task<IActionResult> GetById(int id)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> GetById(int id)
 		{
 			var categories = await _categoriesService.GetByIdAsync(id);
 			return View(categories);
 		}
 		[HttpGet]
-		public IActionResult Create()
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public IActionResult Create()
 		{
 			return View();
 		}
 		[HttpPost]
-		public async Task<IActionResult> Create(CategoryModel model)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> Create(CategoryModel model)
 		{
             if (ModelState.IsValid)
 			{
@@ -43,26 +48,30 @@ namespace LibraryProject.Controllers
 			return View(model);
 		}
 		[HttpGet]
-		public async Task<IActionResult> Delete(int id)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> Delete(int id)
 		{
 			var categories = await _categoriesService.GetByIdAsync(id);
 			return View(categories);
 		}
 		[HttpPost]
-		public async Task<IActionResult> ConfirmDelete(int id)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> ConfirmDelete(int id)
 		{
 			await _categoriesService.DeleteAsync(id);
 			return RedirectToAction(nameof(Index));
 		}
 		[HttpGet]
-		public async Task<IActionResult> Edit(int id)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> Edit(int id)
 		{
 			var categories = await _categoriesService.GetByIdAsync(id);
 			return View(new CategoryModel
 			{ Name = categories.Name });
 		}
 		[HttpPost]
-		public async Task<IActionResult> Edit(int id,  CategoryModel model)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> Edit(int id,  CategoryModel model)
 		{
 			var categories = await _categoriesService.GetByIdAsync(id);
 			categories.Name = model.Name;
@@ -70,7 +79,8 @@ namespace LibraryProject.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 		[HttpGet]
-		public async Task<IActionResult> Details(int id)
+        [Authorize(Roles = "Admin, Recepsionist")]
+        public async Task<IActionResult> Details(int id)
 		{
 			var categories = await _categoriesService.GetByIdAsync(id);
 			return View(categories);

@@ -2,8 +2,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<div class="container mt-5">
+@if(User.IsInRole("Recepsionist"))
+{
+   <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow">
@@ -44,4 +45,5 @@
             </div>
         </div>
     </div>
-</div>
+   </div>
+}

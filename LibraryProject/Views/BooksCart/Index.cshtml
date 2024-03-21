@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@if (User.IsInRole("User"))
+{
 <h4>Books Cart </h4>
 <hr />
 <div class="row">
@@ -41,9 +42,6 @@
                             </td>
                         </tr>
                     }
-                    <tr>
-                        <td colspan="3" class="text-end font-weight-bold">Totali: </td>
-                    </tr>
                 </thead>
             </table>
             <div class="form-group">
@@ -61,4 +59,5 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+}
 }

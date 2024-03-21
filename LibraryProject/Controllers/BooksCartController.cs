@@ -41,7 +41,8 @@ namespace LibraryProject.Controllers
             return userSelections.ToList();
         }
       
-        [HttpGet] 
+        [HttpGet]
+        [Authorize(Roles = "User")]
         public IActionResult Index()
         {
             return View(new BookCartModel
@@ -65,7 +66,8 @@ namespace LibraryProject.Controllers
         //    });
         //    return RedirectToAction("Index");
         //}
-        [HttpPost]
+        [HttpGet]
+        [Authorize(Roles = "User")]
         public IActionResult RemoveBook(int bookId)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

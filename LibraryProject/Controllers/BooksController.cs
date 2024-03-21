@@ -47,7 +47,7 @@ namespace LibraryProject.Controllers
             var books = await _booksService.GetByIdAsync(id);
             return View(books);
         }
-
+        [Authorize(Roles = "Admin, Recepsionist")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -58,7 +58,7 @@ namespace LibraryProject.Controllers
             ViewBag.Categories = categoriesModel;
             return View(new Book());
         }
-
+        [Authorize(Roles = "Admin, Recepsionist")]
         [HttpPost]
         public async Task<IActionResult> Create(Book model, IFormFile picture)
         {
@@ -96,21 +96,21 @@ namespace LibraryProject.Controllers
             ViewBag.Categories = categories.Select(category => new SelectListItem(category.Name, category.Id.ToString())).ToList();
             return View(model);
         }
-
+        [Authorize(Roles = "Admin, Recepsionist")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var books = await _booksService.GetByIdAsync(id);
             return View(books);
         }
-
+        [Authorize(Roles = "Admin, Recepsionist")]
         [HttpPost]
         public async Task<IActionResult> ConfirmDelete(int id)
         {
             await _booksService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Admin, Recepsionist")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -130,7 +130,7 @@ namespace LibraryProject.Controllers
                 CategoryId = books.CategoryId
             });
         }
-
+        [Authorize(Roles = "Admin, Recepsionist")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, BookModel model, IFormFile picture)
         {
@@ -194,19 +194,20 @@ namespace LibraryProject.Controllers
             }
             return Task.FromResult<IActionResult>(View(result));
         }
-
+        [Authorize(Roles = "User")]
         [HttpGet]
         public IActionResult AddBooksToCart(int id)
         {
             _ = _booksService.GetByIdAsync(id);
-                _booksCartService.AddToCart(
-                int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-                , new BookCart
-                {
-                    BookId = id
-                });
+            _booksCartService.AddToCart(
+            int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+            , new BookCart
+            {
+                BookId = id
+            });
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "User")]
         [HttpGet]
         public IActionResult RemoveFromCart(int id)
         {

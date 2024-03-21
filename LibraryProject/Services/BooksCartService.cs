@@ -25,7 +25,6 @@ namespace LibraryProject.Services
             var addedBooksItem = _bookCart[userId].FirstOrDefault(x => x.BookId == item.BookId);
             if(addedBooksItem != null)
             {
-                addedBooksItem.Quantity++;
                 return;
             }
             _bookCart[userId].Add(item);
@@ -55,12 +54,15 @@ namespace LibraryProject.Services
         {
             if (_bookCart.ContainsKey(userId))
             {
-                var bookToRemove = _bookCart[userId].FirstOrDefault(x => x.BookId == bookId);
-             
-                 _bookCart[userId].Remove(bookToRemove);
-                
+                var userCart = _bookCart[userId];
+                var bookToRemove = userCart.FirstOrDefault(x => x.BookId == bookId);
+                if (bookToRemove != null)
+                {
+                    userCart.Remove(bookToRemove);
+                }
             }
         }
+
     }
 }
     
