@@ -23,5 +23,6 @@ namespace LibraryProject.DTO
     public class OrderItemDTO
     {
         public Book Book { get; set; }
+        public string Title { get; set; }
     }
 }

@@ -11,8 +11,9 @@
         <tr>
             <th>Order ID</th>
             <th>Order Date</th>
+            <th>DeadLine</th>
             <th>Address</th>
-            <th>Status</th>
+            <th>Phone Nr</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -21,9 +22,10 @@
         {
             <tr>
                 <td>@order.Id</td>
-                <td>@order.CreatedOn.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                <td>@order.CreatedOn.ToString("dd/MM/yyyy ")</td>
+                <td>@order.Deadline.ToString("dd/MM/yyyy ")</td>
                 <td>@order.Address</td>
-                <td>@order.Status</td>
+                <td>@order.MobilePhone</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@order.Id">View Details</a>
                 </td>

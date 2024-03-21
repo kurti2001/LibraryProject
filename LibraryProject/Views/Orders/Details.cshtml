@@ -12,11 +12,6 @@
             <td colspan="4">
                 <table>
                     <tr>
-                        <td class="title">
-                            <img src="https://sparksuite.github.io/simple-html-invoice-template/images/logo.png"
-                                 style="width: 100%; max-width: 300px" />
-                        </td>
-
                         <td>
                             Invoice #: @Model.Id<br />
                             Created: @Model.CreatedOn.ToString("dd/MM/yyyy HH:mm:ss")
@@ -41,16 +36,10 @@
             </td>
         </tr>
 
-        <tr class="heading">
-            <td>Produkti</td>
-            <td class="text-right">Cmimi</td>
-            <td class="text-right">Sasia</td>
-            <td class="text-right">Totali</td>
-        </tr>
         @foreach (var item in Model.Items)
         {
             <tr class="item">
-                <td>@(item.Book != null && item.Book.Title != null ? item.Book.Title : "Unknown")</td>
+                <td>@item.Book.Title</td>
             </tr>
         }
     </table>

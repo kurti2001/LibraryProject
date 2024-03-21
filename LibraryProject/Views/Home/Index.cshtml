@@ -135,32 +135,35 @@
                 </div>
              </div>
             @* Books Table *@
-        </div
+        </div   
+        @* Orders Table *@
         @if(User.IsInRole("User"))
         {
-        @* Orders Table *@
-       <div class="row">
-            <div class="col-lg-12" style="color:black">
-                <h1>Orders</h1>
-                <table class="table table-bordered" style="color:black">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Order Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var order in ViewBag.Orders)
-                        {
-                            <tr>
-                                <td>@order.Id</td>
-                                <td>@order.CreatedOn.ToString("yyyy-MM-dd")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>}
+              <div class="row">
+                   <div class="col-lg-12" style="color:black">
+                       <h1>Orders</h1>
+                       <table class="table table-bordered" style="color:black">
+                           <thead>
+                               <tr>
+                                   <th>Order ID</th>
+                                   <th>Order Date</th>
+                                   <th>Deadline</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               @foreach (var order in ViewBag.Orders)
+                               {
+                                   <tr>
+                                       <td>@order.Id</td>
+                                       <td>@order.CreatedOn.ToString("yyyy-MM-dd")</td>
+                                       <td>@order.Deadline.ToString("yyyy-MM-dd")</td>
+                                   </tr>
+                               }
+                           </tbody>
+                       </table>
+                   </div>
+               </div>
+        }
         @* Orders Table *@
     </div>
 

@@ -39,7 +39,8 @@ namespace LibraryProject.Services
                            .Select(x=> new OrderItemDTO
                            {
                                Book = new Book
-                               { Id = x.Id}
+                               { Id = x.Id
+                               }
                            }).ToList();
         }
     }
