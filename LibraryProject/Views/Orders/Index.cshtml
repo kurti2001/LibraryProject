@@ -1,0 +1,33 @@
+﻿@model IEnumerable<LibraryProject.DataAccess.Models.Order>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<h1>My Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.CreatedOn.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                <td>@order.Address</td>
+                <td>@order.Status</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@order.Id">View Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

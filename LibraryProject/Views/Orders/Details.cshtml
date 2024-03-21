@@ -1,0 +1,67 @@
+﻿@model LibraryProject.DTO.OrderDTO
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/invoice.css" />
+<div class="invoice-box" id="invoice">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="4">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <img src="https://sparksuite.github.io/simple-html-invoice-template/images/logo.png"
+                                 style="width: 100%; max-width: 300px" />
+                        </td>
+
+                        <td>
+                            Invoice #: @Model.Id<br />
+                            Created: @Model.CreatedOn.ToString("dd/MM/yyyy HH:mm:ss")
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="4">
+                <table>
+                    <tr>
+                        <td>
+                            @Model.UserDTO.Name @Model.UserDTO.LastName<br />
+                            @Model.UserDTO.Email<br />
+                            @Model.Address<br />
+                            @Model.MobilePhone
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td>Produkti</td>
+            <td class="text-right">Cmimi</td>
+            <td class="text-right">Sasia</td>
+            <td class="text-right">Totali</td>
+        </tr>
+        @foreach (var item in Model.Items)
+        {
+            <tr class="item">
+                <td>@(item.Book != null && item.Book.Title != null ? item.Book.Title : "Unknown")</td>
+            </tr>
+        }
+    </table>
+    <button id="ignorePDF" onclick="savePdf()">Ruaj si pdf</button>
+</div>
+
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+<script>
+    document.getElementById('ignorePDF').addEventListener('click', () => {
+        const element = document.getElementById('invoice');
+        html2pdf(element);
+    });
+</script>

@@ -1,5 +1,6 @@
 ﻿using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Models;
+using LibraryProject.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryProject.Services
@@ -7,7 +8,7 @@ namespace LibraryProject.Services
     public interface IOrderItemsService
     {
         void Add(BookCart bookCartModel, int orderId);
-        IEnumerable<OrderItem> GetByOrderId(int orderId);
+        List<OrderItemDTO> GetByOrderId(int id);
     }
 
     internal class OrderItemsService : IOrderItemsService
@@ -30,12 +31,16 @@ namespace LibraryProject.Services
             _context.SaveChanges();
         }
 
-        public IEnumerable<OrderItem> GetByOrderId(int orderId)
+        public List<OrderItemDTO> GetByOrderId(int id)
         {
             return _context.OrderItem
-                           .Where(x => x.OrderId == orderId)
+                           .Where(x => x.OrderId == id)
                            .AsNoTracking()
-                           .ToList();
+                           .Select(x=> new OrderItemDTO
+                           {
+                               Book = new Book
+                               { Id = x.Id}
+                           }).ToList();
         }
     }
 }

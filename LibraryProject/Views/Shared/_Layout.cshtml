@@ -37,12 +37,39 @@
                 <li>
                     <a class="nav-link text-Light" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                 </li>
+
                 <li>
                 <partial name="_LoginPartial" />
                 </li>
             </ul>
         </nav>
-    }
+    }   
+    @if (isUser)
+    {
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="~/">ISD Library</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="~/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Privacy", "Home")">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-Dark" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-Light" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>        
+     }
 
     else
     { 
@@ -69,7 +96,6 @@
            </nav>
         @* NotLoggedInUser *@
     }
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

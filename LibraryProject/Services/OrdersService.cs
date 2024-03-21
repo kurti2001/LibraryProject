@@ -1,5 +1,6 @@
 ﻿using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Models;
+using LibraryProject.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryProject.Services
@@ -9,7 +10,7 @@ namespace LibraryProject.Services
         int Add(BookCartModel model, int userId);
         Order GetOrder(int id);
         IEnumerable<Order> GetUserOrders(int userId);
-        IEnumerable<Order> GetOrdersByStatus(OrderStatus status);
+        OrderDTO GetById(int id);
     }
     internal class OrdersService : IOrdersService
     {
@@ -42,12 +43,21 @@ namespace LibraryProject.Services
             return _context.Order.Find(id) ?? throw new Exception("Order not found");
         }
 
-        public IEnumerable<Order> GetOrdersByStatus(OrderStatus status)
+        public OrderDTO GetById(int id)
         {
-            return _context.Order.Where(x => x.Status == status)
-                                 .OrderBy(x => x.CreatedOn)
-                                 .AsNoTracking()
-                                 .ToList();
+            var dbOrder = _context.Order.Find(id);
+            return new OrderDTO
+            {
+                Id = dbOrder.Id,
+                CreatedOn = dbOrder.CreatedOn,
+                Deadline = dbOrder.Deadline,
+                Address = dbOrder.Address,
+                MobilePhone = dbOrder.MobilePhone,
+                UserDTO = new UserDTO
+                {
+                    Id = dbOrder.UserId
+                }
+            };
         }
 
         public IEnumerable<Order> GetUserOrders(int userId)
@@ -57,5 +67,6 @@ namespace LibraryProject.Services
                                  .AsNoTracking()
                                  .ToList();
         }
+
     }
 }

@@ -61,9 +61,9 @@ namespace LibraryProject.Controllers
                 {
                     _orderItemsSerice.Add(bookCartModel, orderId);
                 }
-                return true;
+                return orderId;
             });
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Orders", new {id = orderAdded});
         }
     }
 }

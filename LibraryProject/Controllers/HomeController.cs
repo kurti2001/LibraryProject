@@ -4,20 +4,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ICategoriesService _categoriesService;
     private readonly IBooksService _booksService;
+    private readonly IOrdersService _ordersService;
 
     public HomeController(ILogger<HomeController> logger,
                           ICategoriesService categoriesService,
-                          IBooksService booksService)
+                          IBooksService booksService,
+                          IOrdersService ordersService)
     {
         _logger = logger;
         _categoriesService = categoriesService;
         _booksService = booksService;
+        _ordersService = ordersService;
     }
 
     public async Task<IActionResult> BooksByCategory(int categoryId)
@@ -52,11 +56,18 @@ public class HomeController : Controller
         {
             var books = await _booksService.GetAllAsync();
             var randomBooks = books.OrderBy(x => Guid.NewGuid()).ToList();
-            return View("AdmIndex",randomBooks);
+            return View("AdmIndex", randomBooks);
         }
         else
         {
-            var categories = await _categoriesService.GetAllAsync();
+            if (User.IsInRole("User"))
+            {
+                int authorizedUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var orders = _ordersService.GetUserOrders(authorizedUserId);
+                ViewBag.Orders = orders;
+
+            }
+                var categories = await _categoriesService.GetAllAsync();
             var sortedCategories = categories.OrderBy(c => c.Name).ToList();
             ViewBag.Categories = sortedCategories;
 
