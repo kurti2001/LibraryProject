@@ -1,7 +1,6 @@
 ﻿@using System.Security.Claims
 @inject LibraryProject.Services.IBooksCartService _booksCartService;
 
-<!-- Customized cart icon -->
 <a asp-action="Index" asp-controller="BooksCart" class="cart-link">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="cart-icon">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 0h10l-1.758 5.274A2 2 0 0 1 15.237 14H8.763a2 2 0 0 1-1.995-1.726L6 3h-.25a2 2 0 1 0 0 4H7"></path>
@@ -9,7 +8,6 @@
     <span class="cart-count">@_booksCartService.GetNoItems(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))</span>
 </a>
 
-<!-- Custom CSS -->
 <style>
     .cart-link {
         display: flex;

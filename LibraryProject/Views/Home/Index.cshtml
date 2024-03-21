@@ -98,22 +98,21 @@
        
         <div class="row">
             @* Categories Table *@
-<div class="col-lg-3">
-    <div class="templatemo_content_left_section" style="background-color: #4b4743; color: #000;">
-        <h1 style="font-size: 22px;">Categories</h1>
-        <div class="category-list">
-            <ul class="list-group">
-                @foreach (var category in ViewBag.Categories)
-                {
-                    <li class="list-group-item" style="background-color: #4b4743;">
-                        <a href="@Url.Action("BooksByCategory", "Home", new { categoryId = category.Id })" style="color: #000; font-size: 16px;">@category.Name</a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-</div>
-
+             <div class="col-lg-3">
+                 <div class="templatemo_content_left_section" style="background-color: #4b4743; color: #000;">
+                     <h1 style="font-size: 22px;">Categories</h1>
+                     <div class="category-list">
+                         <ul class="list-group">
+                             @foreach (var category in ViewBag.Categories)
+                             {
+                                 <li class="list-group-item" style="background-color: #4b4743;">
+                                     <a href="@Url.Action("BooksByCategory", "Home", new { categoryId = category.Id })" style="color: #000; font-size: 16px;">@category.Name</a>
+                                 </li>
+                             }
+                         </ul>
+                     </div>
+                 </div>
+             </div>
             @* Categories Table *@
 
             @* Books Table *@
@@ -136,8 +135,8 @@
                 </div>
              </div>
             @* Books Table *@
-
         </div
+
         @* Orders Table *@
         <div class="row">
             <div class="col-lg-12" style="color:black">
@@ -158,6 +157,7 @@
         </div>
         @* Orders Table *@
     </div>
+
     <footer class="border-top footer text-muted">
         <img src="images/templatemo_ads.jpg" alt="Advertisement" style="margin-bottom: 20px">
         <div>
@@ -165,6 +165,7 @@
             Copyright © 2024 <a href="#"><strong>Library</strong></a> &copy; 2024 - LibraryProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,10 +1,6 @@
 ﻿@model int
 
-<div class="col text-right">
-    <form method="get" action="/Books/RemoveFromCart">
-    </form>
-</div>
-
+<form method="get" action="/Books/RemoveFromCart"></form>
 <div class="col text-right">
     <form method="get" action="/Books/RemoveFromCart">
         <input type="hidden" value="@Model" name="id">

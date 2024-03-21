@@ -17,7 +17,7 @@
 
 //            builder.HasOne<Book>()
 //                   .WithMany()
-//                   .HasForeignKey(x=> x.BookId)
+//                   .HasForeignKey(x => x.BookId)
 //                   .OnDelete(DeleteBehavior.Restrict);
 //        }
 //    }

@@ -4,7 +4,7 @@
 
 //namespace LibraryProject.DataAccess.DbConfig
 //{
-//    internal class OrdersConfiguration:IEntityTypeConfiguration<Order>
+//    internal class OrdersConfiguration : IEntityTypeConfiguration<Order>
 //    {
 //        public void Configure(EntityTypeBuilder<Order> builder)
 //        {
@@ -25,7 +25,7 @@
 
 //            builder.HasOne<User>()
 //                   .WithMany()
-//                   .HasForeignKey(x=>x.UserId)
+//                   .HasForeignKey(x => x.UserId)
 //                   .OnDelete(DeleteBehavior.Restrict);
 //        }
 //    }

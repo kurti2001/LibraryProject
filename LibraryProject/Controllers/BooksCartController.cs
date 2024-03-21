@@ -28,8 +28,7 @@ namespace LibraryProject.Controllers
         }
         private List<BookCart> getUserSelectedItems()
         {
-            var userSelections =_booksCartService.GetAll(int.Parse(User.FindFirstValue
-                  (ClaimTypes.NameIdentifier)));
+            var userSelections =_booksCartService.GetAll(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             var booksIds = userSelections.Select(x => x.BookId)
                                           .Distinct()
                                           .ToList();
@@ -50,28 +49,20 @@ namespace LibraryProject.Controllers
                 Books = getUserSelectedItems()
             });
         }
-        //[HttpPost]
-        //public IActionResult Create(BookCartModel model)
-        //{
-        //    var orderAdded = _servicesManager.WrapInTransaction(() =>
-        //    {
-        //        var orderId = _ordersService.Add(model, int.Parse(User.FindFirstValue
-        //    (ClaimTypes.NameIdentifier)));
-        //        model.Books = getUserSelectedItems();
-        //        foreach (var bookCartModel in model.Books)
-        //        {
-        //            _orderItemsSerice.Add(bookCartModel, orderId);
-        //        }
-        //        return true;
-        //    });
-        //    return RedirectToAction("Index");
-        //}
-        [HttpGet]
-        [Authorize(Roles = "User")]
-        public IActionResult RemoveBook(int bookId)
+        [HttpPost]
+        public IActionResult Create(BookCartModel model)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            _booksCartService.RemoveFromCart(userId, bookId);
+            var orderAdded = _servicesManager.WrapInTransaction(() =>
+            {
+                var orderId = _ordersService.Add(model, int.Parse(User.FindFirstValue
+            (ClaimTypes.NameIdentifier)));
+                model.Books = getUserSelectedItems();
+                foreach (var bookCartModel in model.Books)
+                {
+                    _orderItemsSerice.Add(bookCartModel, orderId);
+                }
+                return true;
+            });
             return RedirectToAction("Index");
         }
     }

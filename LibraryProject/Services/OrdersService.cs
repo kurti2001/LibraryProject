@@ -31,8 +31,8 @@ namespace LibraryProject.Services
                 Status = OrderStatus.CREATED,
                 UserId = userId
             };
-            //_context.Order.Add(order);
-            //_context.SaveChanges();
+            _context.Order.Add(order);
+            _context.SaveChanges();
 
             return order.Id;
         }
