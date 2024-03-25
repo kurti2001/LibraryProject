@@ -14,6 +14,7 @@ namespace LibraryProject.DataAccess
 		public DbSet<Order> Order { get; set; }
 		public DbSet<OrderItem> OrderItem { get; set; }
 		public DbSet<Book> Book { get; set; }
+		public DbSet<CartItems> CartItems { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

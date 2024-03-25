@@ -39,7 +39,7 @@
         @foreach (var item in Model.Items)
         {
             <tr class="item">
-                <td>@item.Book.Title</td>
+                <td>@(item.Book != null && item.Book.Title != null ? item.Book.Title : "Unknown")</td>
             </tr>
         }
     </table>

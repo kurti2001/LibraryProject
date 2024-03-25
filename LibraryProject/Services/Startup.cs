@@ -13,7 +13,8 @@
             services.AddScoped<IServicesManager, ServicesManager>();
 
 
-            services.AddSingleton<IBooksCartService, BooksCartService>();
+            services.AddScoped<IBooksCartService, BooksCartService>();
+            services.AddScoped<ICartItemsService, CartItemsService>();
         }
     }
 }

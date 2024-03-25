@@ -55,12 +55,13 @@ namespace LibraryProject.Controllers
             var orderAdded = _servicesManager.WrapInTransaction(() =>
             {
                 var orderId = _ordersService.Add(model, int.Parse(User.FindFirstValue
-            (ClaimTypes.NameIdentifier)));
+                               (ClaimTypes.NameIdentifier)));
                 model.Books = getUserSelectedItems();
                 foreach (var bookCartModel in model.Books)
                 {
                     _orderItemsSerice.Add(bookCartModel, orderId);
                 }
+                _booksCartService.RemoveAllCartItems(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return orderId;
             });
             return RedirectToAction("Details", "Orders", new {id = orderAdded});
