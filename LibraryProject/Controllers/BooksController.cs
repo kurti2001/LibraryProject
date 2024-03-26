@@ -196,22 +196,20 @@ namespace LibraryProject.Controllers
         }
         [Authorize(Roles = "User")]
         [HttpGet]
-        public IActionResult AddBooksToCart(int id)
+        public async Task<IActionResult> AddBooksToCart(int id)
         {
-            _ = _booksService.GetByIdAsync(id);
-            _booksCartService.AddToCart(
-            int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
-            , new BookCart
-            {
-                BookId = id
-            });
+            var book =  await _booksService.GetByIdAsync(id);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            _booksCartService.AddToCart(userId, new BookCart { BookId = id });
+
             return RedirectToAction("Index");
         }
         [Authorize(Roles = "User")]
         [HttpGet]
-        public IActionResult RemoveFromCart(int id)
+        public async Task<IActionResult> RemoveFromCart(int id)
         {
-            _ = _booksService.GetByIdAsync(id);
+            _ = await _booksService.GetByIdAsync(id);
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             _booksCartService.RemoveFromCart(userId, id);
             return RedirectToAction("Index", "BooksCart");
