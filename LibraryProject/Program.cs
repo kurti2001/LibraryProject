@@ -1,4 +1,5 @@
 using LibraryProject.DataAccess;
+using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,8 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.RegisterServices();
-builder.Services.RegisterDataAccessServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
+
+// Register data access services
+builder.Services.AddDbContext<LibraryProjectDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryProjectConnectionString")));
+builder.Services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<LibraryProjectDbContext>();
 
 // Configure JWT authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
