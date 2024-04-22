@@ -2,12 +2,9 @@ using LibraryProject.DataAccess;
 using LibraryProject.DataAccess.Models;
 using LibraryProject.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

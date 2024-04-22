@@ -6,20 +6,20 @@
     z-index: 1000;
     overflow-x: hidden;
     overflow-y: auto;
-    width: 250px; /* Adjust width as needed */
-    background-color: #343a40; /* Dark background color */
+    width: 250px; 
+    background-color: #343a40; 
     padding-top: 20px;
 }
 
 .sidebar-header {
     padding: 20px;
     text-align: center;
-    border-bottom: 1px solid #454d55; /* Border color */
+    border-bottom: 1px solid #454d55; 
     margin-bottom: 20px;
 }
 
     .sidebar-header h3 {
-        color: #fff; /* Header text color */
+        color: #fff;
     }
 
 .sidebar ul.components {
@@ -32,16 +32,15 @@
 
         .sidebar ul.components li a {
             padding: 10px 15px;
-            font-size: 18px; /* Adjust font size as needed */
-            color: #fff; /* Link text color */
+            font-size: 18px; 
+            color: #fff; 
             text-decoration: none;
         }
 
             .sidebar ul.components li a:hover {
-                background-color: #454d55; /* Hover background color */
+                background-color: #454d55;
             }
 
-/* Ensure the sidebar fills the full height */
 .container {
     height: 100vh;
     overflow-y: auto;
