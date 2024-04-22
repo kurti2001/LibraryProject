@@ -41,9 +41,11 @@
             </ul>
         </nav>
     }
+
+    //NavBar For users and not logged in users
     else
     {
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-4" style="box-shadow: 0 8px 18px rgba(2, 2, 2, 0.5);">
             <a href="~/" class="navbar-brand font-weight-bold d-block d-lg-none">ISD Library</a>
             <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
                 <span class="navbar-toggler-icon"></span>
@@ -61,6 +63,7 @@
                 <partial name="_LoginPartial" />
             </div>
         </nav>
+
     }
 
     <div class="container">
