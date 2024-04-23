@@ -1,26 +1,75 @@
-﻿<form method="get"
-      asp-controller="Books"
-      asp-action="FilterBooksView"
-      style="position: relative; display: flex; align-items: center;">
-    <input class="form-control mr-sm-2"
-           type="text"
-           name="q"
-           placeholder="Search Title..."
-           aria-label="Search Title"
-           id="txtSearchBoxQuery"
-           onkeyup="searchAsync()" />
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="background-color: #8B4513; border-color: #8B4513;">Search</button>
-</form>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store Template, Free CSS Template, CSS Website Layout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
+    <style>
+        /* Container for the search bar */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            margin-bottom: 20px;
+        }
 
-<style>
-    #search-results {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100px;
-    }
+        /* Input field */
+        .search-input {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+            width: 450px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
 
-    .btn-outline-success {
-        color: #fff
-    }
-</style>
+        /* Search button */
+        .search-button {
+            background-color: #E5E5E5;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            padding: 12px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            margin-left: -50px;
+        }
+
+            /* Hover effect for search button */
+            .search-button:hover {
+                background-color: #333;
+            }
+
+        /* Icon inside the search button */
+        .search-icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="get"
+              asp-controller="Books"
+              asp-action="FilterBooksView"
+              class="search-container">
+            <input class="search-input"
+                   type="text"
+                   name="q"
+                   placeholder="Search Title..."
+                   aria-label="Search Title"
+                   id="txtSearchBoxQuery"
+                   onkeyup="searchAsync()" />
+            <button class="search-button" type="submit">
+                <i class="fas fa-search search-icon"></i> 
+            </button>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+</html>
